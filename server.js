@@ -8976,7 +8976,7 @@ require('./public/inventoryDbs/defaultCollections')(app);
 // require('./apiCalls/printPdf')(app); // pass our application into our routes
 require('./apiCalls/materialAdvancePdf')(app);
 
-app.listen(8280); 
-console.log("server running on port 8280");
+app.listen(1280); 
+console.log("server running on port 1280");
 
 exports = module.exports = app;

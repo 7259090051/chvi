@@ -27,16 +27,15 @@ myApp.controller('billCntrl',['$scope','$http','$window',
         //alert($scope.items);
     });
 
-<<<<<<< HEAD
-
-  $scope.setPatyName  =  window.sessionStorage.getItem("receiptPatyName");
+//charan's 
+var setPatyName  =  window.sessionStorage.getItem("receiptPatyName");
  
-console.log($scope.setPatyName)
+console.log(setPatyName)
 
-if ($scope.setPatyName!="null" ) {
-
+if (setPatyName!="null" ) {
+//alert("KK")
 $scope.dataHide="yes"
-      $http.get('/receiptOrderNo/'+$scope.setPatyName).success(function(response){
+      $http.get('/receiptOrderNo/'+setPatyName).success(function(response){
           console.log(response);
         $scope.orderNO=response[0].orderNO;
         $scope.partyname=response[0].partyNames
@@ -47,20 +46,6 @@ $scope.dataHide="yes"
 }       
 window.sessionStorage.setItem("receiptPatyName","null");
             var ilchgg  = window.sessionStorage.getItem("receiptPatyName");
-=======
-//charan's 
-var  getPatyName =window.sessionStorage.getItem("receiptPatyName")
-console.log(getPatyName)
-if ( getPatyName!=null) {
-  //alert("same")
-  $scope.partyname=getPatyName
-
-}
-       window.sessionStorage.setItem("receiptPatyName","");
-            var detailch  = window.sessionStorage.getItem("receiptPatyName");
->>>>>>> 47cc718ca29e36dd2e59b606c6135c3e33d6c2b3
-
-
 //charan
 
          // if($scope.customer==null){
@@ -270,14 +255,14 @@ $scope.billDate=new Date();
    // $scope.dates=new date();
    //for validation before save
    $scope.save=function(){
-
-if (setPatyName!="null") {
+    // alert($scope.rpamt);
+    if (setPatyName!="null") {
 //alert("jj")
  var go=confirm("Material Advance");
     if(go==true){
 
     $scope.transaction="Receipt Voucher"       
-    $scope.materialAdvance = "Transaction.html";
+    window.location = "Transaction.html";
 window.sessionStorage.setItem("orderGetReceipt",$scope.transaction)
     window.sessionStorage.setItem("getPatyName",$scope.partyname)
     window.sessionStorage.setItem("getOrderNo",$scope.orderNO)
@@ -286,12 +271,10 @@ window.sessionStorage.setItem("orderGetReceipt",$scope.transaction)
 
     }
     else{
-$scope.materialAdvance="orderCustomer.html"
+window.location="orderCustomer.html"
 }
 
 }
-
-    // alert($scope.rpamt);
     console.log($scope.rpamt);
     var flag=0;
 console.log($scope.paymode+","+$scope.amount+","+$scope.bank+","+$scope.chequeno+","+
@@ -454,11 +437,7 @@ console.log($scope.rpamt.paymode+","+$scope.rpamt.amount+","+$scope.rpamt.bank+"
       //$scope.voucherStatus = 'InProgress';
       if(flag==0){
       for(i=0;i<=$scope.rpamt.length-1;i++){
-<<<<<<< HEAD
-//alert("test"+$scope.orderNO)
-=======
 
->>>>>>> 47cc718ca29e36dd2e59b606c6135c3e33d6c2b3
       $scope.rdata=$scope.rpamt[i].paymode+","+$scope.rpamt[i].amount+","+$scope.rpamt[i].bank+","+$scope.rpamt[i].chequeno+","+$scope.rpamt[i].date+","+$scope.rpamt[i].cardnos+","+$scope.rpamt[i].ctype+","+$scope.rpamt[i].appno+","+$scope.partyname+","+$scope.billDate+","+$scope.billNo+
       
       ","+$scope.narrate+","+$scope.totals+","+$scope.voucherId+","+$scope.voucherStatus+","+$scope.selectedAmount;

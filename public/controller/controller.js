@@ -123,7 +123,6 @@ ordata=response[0].chgunt;
 })
 
 }
- 
   var  getPatyName =window.sessionStorage.getItem("getPatyName")
 console.log(getPatyName)
 if ( getPatyName!=null) {
@@ -602,6 +601,19 @@ console.log($scope.orderRes)
 
 }
 
+$scope.clearDisplay12 = function(type){
+   $http.get('/ordNoFromOrders/'+$scope.partyname).success(function(response){ 
+          console.log(response)
+          // if (response[0].initial=="") {
+            $scope.orderRes=response;
+console.log($scope.orderRes)
+          // }
+
+})
+
+}
+
+
 //to clear all the display data
 $scope.clearDisplay = function(type){
 //function clearDisplay() {
@@ -728,11 +740,7 @@ var taxamtcal = function($index){
                     }else{
                        // alert("else in else")
                          var calcu = (($scope.userit[$index].chgunt*$scope.userit[$index].rate)+parseInt ($scope.userit[$index].labval)+parseInt ($scope.userit[$index].stval)).toFixed($scope.rupeesDecimalPoints);
-<<<<<<< HEAD
-                         alert("jj")
-=======
-                         // alert("else in else"+calcu);
->>>>>>> 47cc718ca29e36dd2e59b606c6135c3e33d6c2b3
+
                          if (calcu == NaN) {
                               calcu = 0;
                               // alert(calcu)
@@ -5149,11 +5157,7 @@ window.sessionStorage.setItem("threeReceiptVal",JSON.stringify(adjust))
                             $scope.userit[i].orderStatus = "completed";
                           }else if($scope.transaction == "RD Purchase"){
                                 // $scope.userit[i].stockPoint = $scope.rdPurchaseStockPoint ;
-<<<<<<< HEAD
-                                 //alert("hihihihihihihihi")
-=======
 
->>>>>>> 47cc718ca29e36dd2e59b606c6135c3e33d6c2b3
                                  $scope.userit[i].stockInward = "yes";
                                  $scope.userit[i].refId=$scope.refId;
                                }else if($scope.transaction == 'Receipt Voucher'||$scope.transaction == 'Opening Stock'){
@@ -6333,7 +6337,7 @@ $scope.confirmation=function(bill1,sale,name,tran){
          if($scope.finalValueGingIssue!=undefined)
       {
       //$scope.issueDisSave="see";
-  //alert("inside")
+  alert("inside")
   $scope.transaction="Issue Voucher"
 $http.get('/bringIssueVoucher/'+$scope.regularOrder).success(function(response)
 {
