@@ -16,7 +16,7 @@ module.exports = function (app) {
   'items','tax','taxation','inventoryGroupValueNotation','inventoryGroupValueNotationDaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
-  'users','merchantDetails','trail','staff','cardType','orders']);
+  'users','merchantDetails','trail','staff','cardType','orders','printData']);
 
 var fileNameOrder = null
    //pdf trial start
@@ -203,10 +203,10 @@ function textInRowFirst(doc1, text, heigth,width) {
      doc1.y = heightOfPage;
     doc1.x = 10;
 
-     console.log(" heightOfPage line after "+heightOfPage+" doc1.y = "+doc1.y) 
+    // console.log(" heightOfPage line after "+heightOfPage+" doc1.y = "+doc1.y) 
     heightOfPage += 20;
     doc1.y = heightOfPage;
-     console.log(" heightOfPage tax to display "+heightOfPage+" doc1.y = "+doc1.y) 
+    // console.log(" heightOfPage tax to display "+heightOfPage+" doc1.y = "+doc1.y) 
     doc1.text('Tax Amount (Estimated)'+':'+(taxAmount).toFixed(2),{align: 'right'})
     //doc1.text('Tax vijay (Estimated)'+':'+'2000.00',150,320)
     heightOfPage += 20;
@@ -405,7 +405,192 @@ function textInRowFirst(doc, text, heigth,width) {
      //              //  console.log(stdout);
      //         });//require
 
+}// 
+var fileNameMaterialAmount = null;
+
+    //pdf trial start
+function pdfPrintCallAmount(orderNO,partyNames,staff,address,voucherNo){
+
+
+var PDFDocument, doc2;
+var fs = require('fs');
+
+
+PDFDocument = require('pdfkit');
+doc2 = new PDFDocument;
+
+
+ 
+            var datePrint = new Date();
+            var day = datePrint.getDate();
+            var month = datePrint.getMonth() + 1;
+            var year = datePrint.getFullYear();
+            var hours = datePrint.getHours(); // => 9
+            var minutes = datePrint.getMinutes(); // =>  30
+            var seconds = datePrint.getSeconds(); // => 51
+                        
+            var postfix = hours+'.'+minutes+'.'+seconds+'.'+day + "." + month + "." + year;
+            var dateDisplay = day + "/" + month + "/" + year;
+             fileNameMaterialAmount = 'amount'+postfix+'.pdf'
+doc2.pipe (fs.createWriteStream('./public/pdfPrint/amount'+postfix+'.pdf'))
+
+console.log(pdfMerchantData)
+  var heightOfHeader = 20;
+doc2.font('Times-Roman')
+   .fontSize(15)
+   
+   .text(pdfMerchantData[0].ShopName, 10, heightOfHeader)
+   // heightOfHeader += 20;
+   // .text(pdfMerchantData[0].Address[0].Landmark, 10,heightOfHeader)
+   heightOfHeader += 20;
+   //+" "+pdfMerchantData[0].Address[2].Place
+   doc2.text(pdfMerchantData[0].Address[1].Street+" "+pdfMerchantData[0].Address[2].Place, 10,heightOfHeader)
+   heightOfHeader += 20;
+   doc2.text(pdfMerchantData[0].Address[3].Phone+" "+"/ "+pdfMerchantData[0].Address[4].Mobile, 10, heightOfHeader)
+     heightOfHeader += 20;
+    doc2.text(pdfMerchantData[0].Address[5].email, 10, heightOfHeader)
+
+doc2.moveDown()
+
+    doc2.text('Receipt Voucher',{align: 'center'})
+    //party details 
+     heightOfHeader += 40; 
+     var rigthSide = heightOfHeader; 
+    doc2.text('For Order advance from '+":"+partyNames , 10, heightOfHeader)
+    //  heightOfHeader += 20;  
+    // doc2.text('Payment details are as follows: ', 10, heightOfHeader)
+    // //  heightOfHeader += 20;  
+    // doc2.text('City'+':'+pdfPartyCity, 10, heightOfHeader)
+       //heightOfHeader += 20;  
+    doc2.text('Voucher No'+":"+voucherNo , 400, rigthSide)
+    rigthSide += 20;
+    doc2.text('Date'+":"+dateDisplay, 400, rigthSide)
+    // rigthSide += 20;
+    // doc2.text('Staff'+':'+staff, 400, rigthSide)
+      heightOfHeader += 40;  
+    doc2.text('Payment details are as follows: ', 10, heightOfHeader)
+   
+    doc2.save()
+    heightOfHeader += 20;
+   doc2.moveTo(10, heightOfHeader)
+   .lineTo(600,heightOfHeader)
+    .fill("black")
+
+    
+   //  heightOfHeader += 20;
+   //  doc2.fontSize(12)
+   //  .moveTo(10, heightOfHeader)
+   // .lineTo(600,heightOfHeader)
+   //  .fill("black")
+//heightOfHeader += 20;
+var width1 = 0;
+var height1 = heightOfHeader+2;
+doc2.fontSize(12)
+//table hearder displaying
+    var widthHeader = 12;
+    textInRowFirst(doc2, 'Payment Mode', height1,widthHeader);
+    widthHeader += 200;
+    textInRowFirst(doc2, 'Bank Name', height1,widthHeader);
+     widthHeader += 80;
+    textInRowFirst(doc2, 'Cheque No.', height1,widthHeader);
+    widthHeader += 80;
+    textInRowFirst(doc2, 'Date', height1,widthHeader);
+     widthHeader += 80;
+    textInRowFirst(doc2, 'Amount', height1,widthHeader);
+  
+//textInRowFirst(doc2, 'Sc.Wt', 300,width1);
+       heightOfHeader += 20;
+    doc2.fontSize(12)
+    .moveTo(10, heightOfHeader)
+   .lineTo(600,heightOfHeader)
+    .fill("black")
+
+function textInRowFirst(doc2, text, heigth,width) {
+  doc2.y = heigth;
+  doc2.x = width;
+ // width1 += 54;
+  doc2.fillColor('black')
+  doc2.text(text, {
+    paragraphGap: 5,
+    indent: 5,
+    align: 'justify',
+    columns: 1,
+
+  });
+  return doc2
+}//textInRowFirst
+  heightOfHeader += 20;
+   var heightOfPage = heightOfHeader;
+   var detailsDisplayLength = detailsDisplay.length-1;
+   incrementDisplay(detailsDisplayLength,heightOfPage)
+
+      //var increment = 0;
+      
+    function incrementDisplay (j,height1) {
+       //console.log( " before    jjjjjjjjjjjjjjjjjjjjjjjj "+j+ typeof(j))
+          if (j>=0) {
+             width1 = 0;
+             height1 = height1;
+              var widthBody = 10;
+   
+            // orderValue  = parseFloat(orderValue) + parseFloat(detailsDisplay[j].final)
+            // taxAmount = taxAmount + parseFloat(detailsDisplay[j].taxamt)
+            console.log(  parseFloat(orderValue) +"   orderValue "+"  ijjjjjjjjjjjjjjjjjjjjjjjj "+ parseFloat(detailsDisplay[j].final))
+            textInRowFirst(doc2, detailsDisplay[j].itemName, height1,widthBody);
+            widthBody += 200;
+            textInRowFirst(doc2, detailsDisplay[j].purity, height1,widthBody);
+            widthBody += 80;
+            textInRowFirst(doc2, detailsDisplay[j].gwt, height1,widthBody);
+            widthBody += 80;
+            textInRowFirst(doc2, detailsDisplay[j].ntwt, height1,widthBody);
+             widthBody += 80;
+            textInRowFirst(doc2, detailsDisplay[j].labval, height1,widthBody);
+             //detailsDisplay.length --;
+            heightOfPage += 20;
+            detailsDisplayLength -- ;
+             console.log(" increment  detailsDisplay.length "+detailsDisplayLength)
+           
+            incrementDisplay(detailsDisplayLength,heightOfPage) 
+          }; 
+      
+    }//incrementDisplay
+         
+
+     console.log(" heightOfPage line before "+heightOfPage)        
+   doc2.moveTo(10, heightOfPage += 20)
+   .lineTo(600,heightOfPage)
+    .fill("black") 
+    // heightOfPage += 20
+     doc2.y = heightOfPage+10;
+
+    doc2.x = 10;
+    //start
+    heightOfPage += 20;
+   doc2.text('Total'+':'+'5000',{align: 'right'})
+    //doc1.text('Tax vijay (Estimated)'+':'+'2000.00',150,320)
+    // heightOfPage += 20;
+    // doc2.y = heightOfPage;
+    // doc2.text('Voucher amount in words:'+':'+'Five hundred ',{align: 'left',})
+    
+
+
+    //enf
+
+
+
+
+
+    heightOfPage += 40;
+    
+    doc2.y = heightOfPage;
+    doc2.text('Party Signature',{align: 'left'})
+    .text('For '+pdfMerchantData[0].ShopName,10,heightOfPage,{align: 'right'})
+       //console.log(" start fileName fileName fileName fileName "+fileName)
+   doc2.end()
+   
+
 }// pdfPrintCall
+
 
 
 var pdfMerchantData = null;
@@ -478,30 +663,50 @@ function detailsDisplayCall(orderNO,partyNames,staff,condition){
     })
   }else if(condition == 'order'){
 
-         db.orders.find({ "orderNO" :orderNO },function(err,detailsDisplayData){
-        console.log("length to call in details  "+detailsDisplayData.length);
-        detailsDisplay = detailsDisplayData;
-        //console.log(detailsDisplayData)
-        for (var i = detailsDisplay.length - 1; i >= 0; i--) {
-          //Things[i]
-             orderValue  = orderValue + parseFloat(detailsDisplay[i].final)
-            
-             taxAmount = taxAmount + parseFloat(detailsDisplay[i].taxamt)
-         
-        };
-        pdfPrintCall(orderNO,partyNames,staff,pdfPartyData[0].data.address1)
-         
-        //partyDetailsCall(orderNO,partyNames,staff)
-       // saleCall(orderNO,partyNames,staff)
-  })
+                     db.orders.find({ "orderNO" :orderNO },function(err,detailsDisplayData){
+                            console.log("length to call in details  "+detailsDisplayData.length);
+                            detailsDisplay = detailsDisplayData;
+                            //console.log(detailsDisplayData)
+                            for (var i = detailsDisplay.length - 1; i >= 0; i--) {
+                              //Things[i]
+                                 orderValue  = orderValue + parseFloat(detailsDisplay[i].final)
+                                
+                                 taxAmount = taxAmount + parseFloat(detailsDisplay[i].taxamt)
+                             
+                            };
+                            pdfPrintCall(orderNO,partyNames,staff,pdfPartyData[0].data.address1)
+                             
+                            //partyDetailsCall(orderNO,partyNames,staff)
+                           // saleCall(orderNO,partyNames,staff)
+                      })
 
-  }
+  }else if (condition == 'amount') {
+
+           db.orders.find({ "orderNO" :orderNO },function(err,detailsDisplayData){
+                            console.log("length to call in details  "+detailsDisplayData.length);
+                            detailsDisplay = detailsDisplayData;
+                            //console.log(detailsDisplayData)
+                            for (var i = detailsDisplay.length - 1; i >= 0; i--) {
+                              //Things[i]
+                                 orderValue  = orderValue + parseFloat(detailsDisplay[i].final)
+                                
+                                 taxAmount = taxAmount + parseFloat(detailsDisplay[i].taxamt)
+                             
+                            };
+                            pdfPrintCallAmount(orderNO,partyNames,staff,pdfPartyData[0].data.address1)
+                             
+                            //partyDetailsCall(orderNO,partyNames,staff)
+                           // saleCall(orderNO,partyNames,staff)
+                      })
+
+  };
 
 
 }//detailsDisplayCall()
 
 //merchantDetailsCall();
 //pdf trial end
+
 
 app.post('/api/orderDetailsMaterialAdvancePdf',function(req,res){ 
 	console.log(" order details pdf");
@@ -515,12 +720,16 @@ app.post('/api/orderDetailsMaterialAdvancePdf',function(req,res){
       'receiptFile':fileNameMaterialReceipt,
       'orderFile':fileNameOrder
     });
+    db.printData.insert({"orderNo" :req.body.orderNO,  "fileName" : fileNameOrder,"printStatus" : "no"})
+
  }, 2000);
 	//merchantDetailsCall(req.body.orderNO,req.body.partyNames,'staff',condition);
 })
+
+ console.log(fileNameMaterialReceipt+" "+ fileNameOrder+" result fdyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ")
  // merchantDetailsCall("OD6",'Vinay','staff','receipt');
  // merchantDetailsCall("OD6",'Vinay','staff','order');
-
+  // merchantDetailsCall("OD6",'Vinay','staff','amount');
 //  const { spawn } = require('child_process');
 // const bat = spawn('cmd.exe', ['./pdfPrint', 'MaterialReceipt18.15.11.2.3.2018.pdf']);
 //  end of order print //
@@ -529,6 +738,7 @@ app.get('/api/Orderprefixs1234',function(req,res){
   console.log("   start here       here     ")
    merchantDetailsCall("OD6",'Vinay','staff','receipt');
   merchantDetailsCall("OD6",'Vinay','staff','order');
+  merchantDetailsCall("OD6",'Vinay','staff','amount');
 //console.log(" fdyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ") 
 //   var data =fs.readFileSync('./pdfPrint/MaterialReceipt18.15.11.2.3.2018.pdf');
  setTimeout(function(){
@@ -537,6 +747,8 @@ app.get('/api/Orderprefixs1234',function(req,res){
       'receiptFile':fileNameMaterialReceipt,
       'orderFile':fileNameOrder
     });
+     db.printData.insert({"orderNo" :req.body.orderNO,  "fileName" : fileNameMaterialReceipt,"printStatus" : "no"})
+
  }, 2000);
 // setTimeout(
 //    console.log(fileNameMaterialReceipt+" "+ fileNameOrder+" result fdyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ")

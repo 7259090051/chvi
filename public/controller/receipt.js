@@ -28,6 +28,7 @@ myApp.controller('billCntrl',['$scope','$http','$window',
     });
 
 //charan's 
+<<<<<<< HEAD
 var setPatyName  =  window.sessionStorage.getItem("receiptPatyName");
  
 console.log(setPatyName)
@@ -46,6 +47,19 @@ $scope.dataHide="yes"
 }       
 window.sessionStorage.setItem("receiptPatyName","null");
             var ilchgg  = window.sessionStorage.getItem("receiptPatyName");
+=======
+var  getPatyName =window.sessionStorage.getItem("receiptPatyName")
+console.log(getPatyName)
+if ( getPatyName!=null) {
+  //alert("same")
+  $scope.partyname=getPatyName
+
+}
+       window.sessionStorage.setItem("receiptPatyName","");
+            var detailch  = window.sessionStorage.getItem("receiptPatyName");
+
+
+>>>>>>> 317887910703711ae8103f9d14076d9b6e625f06
 //charan
 
          // if($scope.customer==null){

@@ -9,7 +9,11 @@ var db=mongojs('inventory',['user','tags','transaction','saleInvoice','mode','tr
   'items','tax','taxation','inventoryGroupValueNotationDaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
+<<<<<<< HEAD
   'users','merchantDetails','trail','staff','receipts','cardType','payments','orders']);
+=======
+  'users','merchantDetails','trail','staff','receipts','cardType','payments','orders','printData']);
+>>>>>>> 317887910703711ae8103f9d14076d9b6e625f06
 
 
 var bodyParser=require('body-parser');
@@ -3066,6 +3070,22 @@ app.get('/Ordertotalcount',function(req,res){
   });
 });
 
+//for pdf call 
+app.get('/printCallPdf',function(req,res){
+
+  db.printData.find({"orderNo":req.query.orderNo,"printStatus" : "no"},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
+app.put('/pdfUpdate',function(req,res){
+  // console.log('/pdfUpdate'+ '/pdfUpdate'+req.query.id +req.query.id+ req.query.id);
+  // console.log(req.body)
+ db.printData.update({_id:mongojs.ObjectId(req.body._id)},{$set:{"printStatus" : "yes"}},function(err,doc){
+    //console.log(req.query.id +req.query.id+ req.query.id);
+    res.json(doc);
+  });
+});
 
 
 
@@ -3187,7 +3207,11 @@ app.get('/getvoucherids:name',function(req,res){
 // <<<<<<< HEAD
 //    db.saleInvoice.find({"partyname":pname,"AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
 // =======
+<<<<<<< HEAD
    db.saleInvoice.find({"partyname":pname,"AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
+=======
+   db.saleInvoice.find({"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
+>>>>>>> 317887910703711ae8103f9d14076d9b6e625f06
 //>>>>>>> 7a8f5baafd1db8333d296c8333f507e52e0c2c4e
 }).sort({_id:-1},function(err,doc){
 
@@ -4745,7 +4769,11 @@ var dis = str_array[9];
 // <<<<<<< HEAD
 //             "labourtax":labourtax,"Transaction":transaction,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"roundOffValue":decimals,"invoiceValue":invoiceValue,
 // =======
+<<<<<<< HEAD
             "labourtax":labourtax,"Transaction":transaction,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"roundOffValue":decimals,"invoiceValue":invoiceValue,
+=======
+            "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"roundOffValue":decimals,"invoiceValue":invoiceValue,
+>>>>>>> 317887910703711ae8103f9d14076d9b6e625f06
 //>>>>>>> 7a8f5baafd1db8333d296c8333f507e52e0c2c4e
             "netAmount":Decimal128.fromString(netValue),"discount":discount,"cardCharges" :cardCharges,"charges":charges}},function(err,doc){
               res.json(doc);
@@ -8976,7 +9004,14 @@ require('./public/inventoryDbs/defaultCollections')(app);
 // require('./apiCalls/printPdf')(app); // pass our application into our routes
 require('./apiCalls/materialAdvancePdf')(app);
 
+<<<<<<< HEAD
 app.listen(1280); 
 console.log("server running on port 1280");
+=======
+app.listen(9000); 
+console.log("server running on port 9000");
+
+
+>>>>>>> 317887910703711ae8103f9d14076d9b6e625f06
 
 exports = module.exports = app;
