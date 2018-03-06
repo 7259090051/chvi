@@ -35,56 +35,56 @@ function($scope,$http,$window,$filter,$timeout,$q,ControllerService){
 $scope.orderRes=[];
 $scope.detailsOrder=function(orderNum){
 
-$scope.regularOrder=orderNum;
-$scope.bringOrd="num"
+// $scope.regularOrder=orderNum;
+// $scope.bringOrd="num"
 
-        $http.get('/ordersNoFromReceipt/'+orderNum).success(function(response){ 
-          console.log(response)
-          $scope.adjqty=response[0].Amount.$numberDecimal
+        // $http.get('/ordersNoFromReceipt/'+orderNum).success(function(response){ 
+        //   console.log(response)
+        //  // $scope.adjqty=response[0].Amount.$numberDecimal
 
-        })
-        $http.get('/ordNum/'+orderNum).success(function(response){ 
-          console.log(response)
-      if (response[0].rateFixed==1) {
-$scope.disabledPurity="yes";
+        // })
+        $http.get('/ordNum/'+orderNum).success(function(response123){ 
+          //console.log(response)
+//       if (response[0].rateFixed==1) {
+// $scope.disabledPurity="yes";
 
-}     
-         var ordata=null;
-$scope.userit=response;
-$scope.ordId=response[0].orderNO
+// }     
+         // var ordata=null;
+$scope.userit=response123;
+//$scope.ordId=response[0].orderNO
 
 
-if(parseFloat(response[0].totalorder[0].chgunt)<=parseFloat(response[0].chgunt)){
+// if(parseFloat(response[0].totalorder[0].chgunt)<=parseFloat(response[0].chgunt)){
   
-$scope.userit[0].ordAdj=response[0].totalorder[0].chgunt;
-}
-console.log(response[0].totalorder[0].chgunt)
-console.log(response[0].chgunt)
-var calres=response[0].totalorder[0].chgunt;
- for(var i=0;i<=$scope.userit.length-1;i++){
+// $scope.userit[0].ordAdj=response[0].totalorder[0].chgunt;
+// }
+// console.log(response[0].totalorder[0].chgunt)
+// console.log(response[0].chgunt)
+// var calres=response[0].totalorder[0].chgunt;
+//  for(var i=0;i<=$scope.userit.length-1;i++){
 
-        if(parseFloat(calres)>parseFloat(response[i].chgunt)){
-
-
-        $scope.userit[i].ordAdj=parseFloat(response[i].chgunt);
-        var calcul=parseFloat(calres)-parseFloat(response[i].chgunt)
-
-        calres=calcul
-        $scope.finalValueGingIssue=calres;
+//         if(parseFloat(calres)>parseFloat(response[i].chgunt)){
 
 
-        }
-}
-ordata=response[0].chgunt;
- console.log(ordata)
+//         $scope.userit[i].ordAdj=parseFloat(response[i].chgunt);
+//         var calcul=parseFloat(calres)-parseFloat(response[i].chgunt)
+
+//         calres=calcul
+//         $scope.finalValueGingIssue=calres;
 
 
- setTimeout(function(){$scope.Print()}, 500);
+//         }
+// }
+// ordata=response[0].chgunt;
+//  console.log(ordata)
+
+
+ //setTimeout(function(){$scope.Print()}, 500);
  $scope.Print = function(){
   console.log(ordata)
-  console.log(parseFloat($scope.userit[0].ordAdj))
+  //console.log(parseFloat($scope.userit[0].ordAdj))
 
-  console.log((response[0].chgunt)-parseFloat($scope.userit[0].ordAdj))
+  //console.log((response[0].chgunt)-parseFloat($scope.userit[0].ordAdj))
    //for(var i=0;i<=$scope.userit.length-1;i++){
    function increaseCallIndex (i) {
      // body...
@@ -95,7 +95,7 @@ ordata=response[0].chgunt;
                             $scope.userit[i].chgunt =(ordata)-parseFloat($scope.userit[i].ordAdj);
                             $scope.userit[i].chgunt = ($scope.userit[i].chgunt).toFixed(fixdec); 
                             //$scope.userit[0].
-                            //alert(" $scope.userit[i].chgunt  "+ $scope.userit[i].chgunt +" i "+i)
+                            alert(" $scope.userit[i].chgunt  "+ $scope.userit[i].chgunt +" i "+i)
 
                             $scope.userit[i].salesPerson =$scope.usernamedetails ; 
                               // $http.get('/itemdetails'+$scope.items[a].InvGroupName).success(function(response){
@@ -114,15 +114,14 @@ ordata=response[0].chgunt;
                                                    
                                                         $scope.Acc = inventoryGroup12[0].collection2_doc.SalesAcc;
                                                            $scope.userit[i].AccNo = $scope.Acc[0].AccNo ;
-                                                           // alert($scope.Acc[0].AccNo )
+
                                                            //$scope.userit[0].AccNo = $scope.Acc[0].AccNo ;
                                                    //  alert("$scope.userit[0].AccNo "+$scope.userit[0].AccNo)
                                                           
 
-                                                             $scope.dropDownCalls(i,"pctcal");
+                                                            // $scope.dropDownCalls(i,"pctcal");
                                                                //alert(" call  here ")
-                                                                indexvalue = i;
-                                                               saleInvoiceCalculations();
+                                                             //  saleInvoiceCalculations();
                                                                 i++ ;
                                                                 increaseCallIndex (i)
                                                                // alert(" i "+i)
@@ -767,7 +766,7 @@ var taxamtcal = function($index){
                          var calcu = (($scope.userit[$index].chgunt*$scope.userit[$index].rate)+parseInt ($scope.userit[$index].labval)+parseInt ($scope.userit[$index].stval)).toFixed($scope.rupeesDecimalPoints);
                          // alert("else in else"+calcu);
                          $scope.userit[$index].taxval = calcu;
-                         alert(" tax aval "+$scope.userit[$index].taxval+" $scope.userit[$index].chgunt "+$scope.userit[$index].chgunt+" index "+$index)
+                         alert(" tax aval "+$scope.userit[$index].taxval+" $scope.userit[$index].chgunt "+$scope.userit[$index].chgunt)
                          if (calcu == NaN) {
                               calcu = 0;
                               // alert(calcu)
